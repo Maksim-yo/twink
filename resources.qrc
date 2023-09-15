@@ -1,0 +1,13 @@
+<RCC>
+    <qresource prefix="/">
+        <file>assets/unknown_image.png</file>
+        <file>assets/search.jpg</file>
+        <file>assets/search.png</file>
+        <file>assets/more.png</file>
+        <file>assets/download_icon.png</file>
+        <file>assets/home.png</file>
+        <file>assets/settings.png</file>
+        <file>assets/back.png</file>
+        <file>assets/folder.png</file>
+    </qresource>
+</RCC>

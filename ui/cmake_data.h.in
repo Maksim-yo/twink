@@ -1,0 +1,6 @@
+#ifndef CMAKE_DATA_H_IN
+#define CMAKE_DATA_H_IN
+
+#define UNKNOWN_IMAGE_PATH "@UNKNOWN_IMAGE_PATH@"
+
+#endif // CMAKE_DATA_H_IN
