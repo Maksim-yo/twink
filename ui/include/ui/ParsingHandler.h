@@ -11,6 +11,7 @@ public:
     ParsingHandler(MusicObjectModel*& obj);
 public slots:
     void onChangedPath(QString path);
+    void onShowPathChanged(bool state);
 signals:
     void changedPath(QString path);
 private:
@@ -18,6 +19,7 @@ private:
     void converter(std::vector<Metadata::Track> tracks);
     MusicObjectModel*& model;
     std::filesystem::path path;
+    bool path_state;
 };
 
 #endif // PARSINGHANDLER_H

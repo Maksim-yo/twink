@@ -34,5 +34,4 @@ void QtLogger::processLog(const Log &log)
 
 QtLogger::~QtLogger()
 {
-    qDebug() << "--------------QtLogger called------------";
 }

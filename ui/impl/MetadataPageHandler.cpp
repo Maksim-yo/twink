@@ -10,7 +10,7 @@
 namespace UI {
 
     const std::string_view album_name = "album_name";
-    const std::string_view album_year = "album_year";
+    const std::string_view track_year = "track_year";
     const std::string_view  artist_name = "artist_name";
     const std::string_view track_title = "track_title";
 
@@ -27,7 +27,7 @@ namespace UI {
         QRegularExpression rx;
         std::string item_name = item_type.toStdString();
         int pos = 0;
-        if (item_name == album_year){
+        if (item_name == track_year){
 
             rx = QRegularExpression(R"(\d+|^\s*$)");
         }
@@ -81,16 +81,10 @@ namespace UI {
         track.title = item.title().isDefault() ? "" : item.title().get_data();
         track.duration = Utils::convertTime(item.duration().get_data());
         track.album.title = item.album().album().isDefault() ? "" : item.album().album().get_data();
-        track.album.year = item.album().album_year().isDefault() ? "" : item.album().album_year().get_data();
+
         track.path = item.path();
 
-
         QVector<QString> artists = item.artist();
-
-        qDebug() << "SAVING ARITSTS: ";
-        for(auto temp: item.artist()){
-            qDebug() << temp;
-        }
 
         std::transform(artists.begin(), artists.end(), std::back_inserter(track.artists), [](QString artist){return Metadata::Artist{artist};} );
         bool res = Service<Metadata::ISaver>::get()->save(track, track.path.toStdString());

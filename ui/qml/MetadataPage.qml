@@ -40,7 +40,7 @@ Item {
             return true;
         if (item.album_name != album_input.text)
             return true;
-        if (item.album_year != album_year_input.text)
+        if (item.year != track_year_input.text)
             return true;
         if(root.isImageLoaded)
             return true;
@@ -193,7 +193,7 @@ Item {
 
                         Text {
                             id: _album_year
-                            text: album_year_input.text
+                            text: track_year_input.text
                             font.pixelSize: 16
                             color: textColorHeader
                         }
@@ -298,19 +298,19 @@ Item {
                         LabelItem{
                             Layout.alignment: Qt.AlignCenter
 
-                            id: album_year_input
+                            id: track_year_input
                             width: root.input_width
                             height: root.input_height
                             text_label_color: textColorLabelItem
-                            text: root.item.album_year
-                            isTextDefault: root.item.album_year_is_default
+                            text: root.item.year
+                            isTextDefault: root.item.year_is_default
                             text_color: textColorItem
                             back_color:backColorItem
-                            item_name: "Album Year"
+                            item_name: "Track Year"
                             isOptional: true
                             onTextEdited: (text) => {
 
-                                album_year_input.error_message = validate(text, "album_year", root.index)
+                                track_year_input.error_message = validate(text, "track_year", root.index)
 
                             }
                         }
@@ -348,11 +348,8 @@ Item {
                             root.isSave = true
                             item.name = title_input.text
                             item.artist = artist_input.text
-                            console.log("artist name: ")
-                            console.log(item.artist)
-                            console.log(artist_input.text)
                             item.album_name = album_input.text
-                            item.album_year = album_year_input.text
+                            item.year = track_year_input.text
                             if(root.isImageLoaded){
                                 item.image = fileDialog.selectedFile
                             }

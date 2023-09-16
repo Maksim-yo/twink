@@ -42,7 +42,6 @@ namespace Metadata {
     struct Album {
 
         QString title;
-        QString year;
     };
 
 

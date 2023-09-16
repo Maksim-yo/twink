@@ -18,6 +18,12 @@ void ParsingHandler::onChangedPath(QString path)
     converter(tracks);
 }
 
+void ParsingHandler::onShowPathChanged(bool state)
+{
+    qDebug() << "onShowPathChanged " << state;
+    path_state = state;
+}
+
 std::vector<Metadata::Track> ParsingHandler::proccess(std::filesystem::path directory)  {
 
     std::vector<Metadata::Track> tracks;
@@ -35,9 +41,6 @@ std::vector<Metadata::Track> ParsingHandler::proccess(std::filesystem::path dire
         if(track.has_value())
             tracks.emplace_back(track.value());
 
-//        for(auto temp : track->artists)
-//            qDebug() << "TTRACKC ARTIST: " << temp.name ;
-
     }
 
     return tracks;
@@ -51,12 +54,14 @@ void ParsingHandler::converter(std::vector<Metadata::Track> tracks) {
         MusicItem item;
         AlbumItem album;
         album.setAlbum(track.album.title);
-        album.setAlbumYear(track.album.year);
+        item.setYear(track.date.toString());
         item.setAlbum(album);
         item.setDuration(Utils::convertTime(track.duration));
 
         item.setTitle(track.title);
         item.setPath(track.path);
+        item.setPath(path_state);
+
         Metadata::Image image;
         if (track.image.has_value() && track.image->data) {
 
@@ -66,8 +71,6 @@ void ParsingHandler::converter(std::vector<Metadata::Track> tracks) {
                 auto image_heap = new ImageObject(std::move(image));
                 item.setImage(std::move(image_heap));
             }
-            else
-                qDebug() << track.path;
         }
 
 

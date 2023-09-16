@@ -25,7 +25,6 @@ static QVector<QString> makeArtists(QString str){
 
     QVector<QString> res;
     auto artitsts = str.split(",");
-    qDebug() << "FLASDKFLKDALSFKASFKDASFKASD;F";
 
     for (auto & elm : artitsts){
 
@@ -72,9 +71,10 @@ QHash<int, QByteArray> MusicObjectModel::roleNames() const {
     roles[PathRole] = "path";
     roles[AlbumYearRole] = "album_year";
     roles[VisibleRole] = "visible";
+    roles[YearRole] = "year";
+    roles[YearRoleisDefault] = "year_is_default";
     roles[NameRoleisDefault] = "name_is_default";
     roles[ArtistRoleisDefault] = "artist_is_default";
-    roles[AlbumYearRoleisDefault] = "album_year_is_default";
     roles[AlbumNameRoleisDefault] = "album_name_is_default";
     return roles;
 }
@@ -117,13 +117,10 @@ bool MusicObjectModel::setData(const QModelIndex &index, const QVariant &value, 
         AlbumItem album = item.album();
         album.setAlbum(value.toString());
         item.setAlbum(album);
-        qDebug() << "STTING ALBUM: " <<item.album().album().get_data();
     }
 
-    else if (role == AlbumYearRole) {
-        AlbumItem album = item.album();
-        album.setAlbumYear(value.toString());
-        item.setAlbum(album);
+    else if (role == YearRole) {
+        item.setYear(value.toString());
     }
     else
         return false;
@@ -159,6 +156,14 @@ void MusicObjectModel::update(QVector<MusicItem> data)
     }
 }
 
+void MusicObjectModel::modifyData(std::function<void (MusicItem &)> function)
+{
+    for(int i= 0; i < musicList.size(); ++i){
+        function(musicList[i]);
+        emit dataChanged(index(i), index(i));
+    }
+}
+
 void MusicObjectModel::clear()
 {
     beginResetModel();
@@ -182,13 +187,13 @@ QVariant MusicObjectModel::data(const QModelIndex & index, int role) const {
         return item.path();}
     if (role == ItemRole ) {
         return       QVariant::fromValue(item);}
-    if (role == AlbumYearRole) {
-        return item.album().album_year().get_data();}
+    if (role == YearRole) {
+        return item.year().get_data();}
     if (role == AlbumNameRole) return item.album().album().get_data();
     if (role == VisibleRole) return item.visible();
     if (role == NameRoleisDefault) return item.title().isDefault();
     if (role == ArtistRoleisDefault) return item.artist().size() <= 0;
-    if (role == AlbumYearRoleisDefault) return item.album().album_year().isDefault();
+    if (role == YearRoleisDefault) return item.year().isDefault();
     if (role == AlbumNameRoleisDefault) {
         return item.album().album().isDefault();}
     if (role == ImageRole)  {

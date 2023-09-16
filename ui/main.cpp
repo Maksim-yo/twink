@@ -85,18 +85,20 @@ int main(int argc, char *argv[])
     QCoreApplication::setApplicationName("Twink");
 
     Service<Logger> logger = {std::make_unique<QtLogger>()};
-
+    Service<MusicObjectModel> modelService = std::make_unique<MusicObjectModel>();
     UI::MetadataPageHandler* metadata_handler = new UI::MetadataPageHandler();
     Service<Metadata::IParser> parser;
     QQmlContext* context = engine.rootContext();
-    MusicObjectModel* model = new MusicObjectModel;
+    MusicObjectModel* model = modelService.get();
     UI::Settings* settings = new UI::Settings();
-    UI::SettingsPageHanlder settingsHandler(settings);
+    UI::SettingsPageHanlder* settingsHandler = new UI::SettingsPageHanlder(settings);
 
     Metadata::ParserSpeed parseSpeedType = Metadata::convertParserSpeed(settings->value("parsingSpeed", "Average").toString());
     parser.assign(Metadata::createParser(Metadata::ParserType::Taglib, parseSpeedType));
     Service<Metadata::ISaver> saver = Metadata::createSaver(Metadata::ParserType::Taglib, parseSpeedType);
     ParsingHandler* parsingHandler =  new ParsingHandler(model);
+    QObject::connect(settingsHandler, &UI::SettingsPageHanlder::pathShowChanged, parsingHandler, &ParsingHandler::onShowPathChanged);
+    settingsHandler->setShowPath();
     SearchHandler* searchHandler = new SearchHandler(model);
 
     context->setContextProperty("trackList", model);
@@ -105,7 +107,6 @@ int main(int argc, char *argv[])
     context->setContextProperty("metadata_handler",metadata_handler);
     context->setContextProperty("searchHandler", searchHandler);
 
-    emit parsingHandler->changedPath("C:/Users/lyzlo/Music");
     engine.load(url);
 
     return app.exec();

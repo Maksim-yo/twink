@@ -65,24 +65,48 @@ Item {
                 Layout.preferredHeight: 33
                 Layout.topMargin: 10
                 Layout.leftMargin: 39
-                RowLayout {
+                ColumnLayout {
                     anchors.fill: parent
-                    spacing: 15
-                    Text {
 
-                        id: parsingSpeedText
-                        text: "Parsing speed"
-                        font.pixelSize: 18
+                    RowLayout {
+                        spacing: 15
+                        Text {
+
+                            id: parsingSpeedText
+                            text: "Parsing speed"
+                            font.pixelSize: 18
+
+                        }
+
+                        ComboBox {
+                            id: parse_speed_box
+                            width: 140
+                            model: [ "Low", "Average", "Fast" ]
+                            currentIndex: findElement(model, settings.value("parsingSpeed", "Average"))
+                        }
 
                     }
 
-                    ComboBox {
-                        id: parse_speed_box
-                        width: 140
-                        model: [ "Low", "Average", "Fast" ]
-                        currentIndex: findElement(model, settings.value("parsingSpeed", "Average"))
-                    }
+                    RowLayout {
+                        spacing: 15
 
+                        Text {
+
+                            text: "Show item path"
+                            font.pixelSize: 18
+
+                        }
+
+                        CheckBox {
+                            id: show_path_checkbox
+                            Layout.topMargin: 7
+                            checkState: settings.value("showPath", Qt.Unchecked)
+                            width:  25
+                            height: 25
+
+                        }
+
+                    }
                 }
             }
 
@@ -103,6 +127,7 @@ Item {
                     text: "apply"
                     onClicked: {
                         settings.setValue("parsingSpeed",parse_speed_box.currentText)
+                        settings.setValue("showPath", show_path_checkbox.checkState)
                         root.isSave = true
                     }
                 }

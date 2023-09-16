@@ -12,11 +12,14 @@ namespace UI{
         Q_OBJECT
     public:
         SettingsPageHanlder(UI::Settings*& _settings);
+        void setShowPath();
         Q_INVOKABLE
         UI::Settings& get();
 
     private slots:
         void handleChange(const QString& key);
+    signals:
+        void pathShowChanged(bool state);
 
     private:
         UI::Settings* settings;

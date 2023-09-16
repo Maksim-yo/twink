@@ -126,9 +126,7 @@ using namespace TagLib;
         const auto artistNames{getFirstMatch(map, artistTagNames)};
 
           std::transform(artistNames.cbegin(), artistNames.cend(), std::back_inserter(res), [&](std::string name) {
-              qDebug() << "Artist: " << name.c_str();
               return Artist{QString(name.c_str())};});
-
 
         return res;
 
@@ -303,7 +301,6 @@ using namespace TagLib;
         auto artistReplace = [&track, &properties]()->bool{
             TagLib::StringList data;
             std::for_each(track.artists.begin(), track.artists.end(),[&data](Artist artist){
-                qDebug() << "Aritst: " << artist.name;
                 data.append(convertString(artist.name));});
                 return properties.replace("ARTISTS", data);
         };
@@ -339,7 +336,6 @@ using namespace TagLib;
         if (TagLib::MPEG::File* mp3File {dynamic_cast<TagLib::MPEG::File*>(file.file())}){
 
 
-            qDebug() << "Is image: " << track.image.has_value();
                 if (mp3File->ID3v2Tag() && track.image.has_value())
                 {
                     auto tag = mp3File->ID3v2Tag();

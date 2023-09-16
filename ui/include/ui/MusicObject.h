@@ -17,17 +17,21 @@ static const std::string_view default_year_value{"????"};
 struct AlbumItem {
 
     Utils::String album() const {return _album;}
-    Utils::String album_year() const {return _album_year;}
 
     void setAlbum(QString album) {if (album.length()) _album = album;}
-    void setAlbumYear(QString year) {if (year.length()) _album_year = year;}
 
 private :
     Utils::String _album{default_value};
-    Utils::String _album_year{default_year_value};
 
 };
 
+struct pathStruct {
+
+
+    QString none_path{""};
+    QString path;
+
+};
 struct MusicItem {
 
 
@@ -41,7 +45,9 @@ struct MusicItem {
     QVector<QString> artist() const noexcept {return _artist;}
     Utils::String title() const noexcept {return _name;}
     Utils::String duration() const noexcept {return _duration;}
-    QString path() const {return _path;}
+    Utils::String year() const noexcept {return _year;}
+    QString path() const {return _current_path;}
+    pathStruct pathData() const {return _path;}
     ImageObject* image() const noexcept {return _image;}
     qint64 bitrate() const {return _bitrate;}
     qint64 sampleRate() const {return _sampleRate;}
@@ -50,24 +56,35 @@ struct MusicItem {
     bool    visible() const {return _visible;}
 
     void setArtist(QVector<QString> artists);
-    void setTitle(QString title) {if (title.length()) _name = title;}
+    void setTitle(QString title) {if (!title.isEmpty()) _name = title;}
     void setDuration(QString duration) { _duration = duration; }
-    void setPath(QString path) {_path = path;}
+    void setPath(QString path){
+        _path.path = path;
+    }
+    void setPath(bool state) {
+        qDebug() << state;
+        if(state)
+            _current_path = _path.path;
+        else
+            _current_path = _path.none_path;
+    }
     void setImage(ImageObject* image){_image = image;}
     void setBitrate(qint64 bitrate) {_bitrate = bitrate; }
     void setSampleRate(qint64 rate) {_sampleRate = rate;}
     void setChannles(qint64 channels) {_channels = channels;}
     void setAlbum(AlbumItem album) {_album = album;}
     void setVisible(bool visible) {_visible = visible;}
-
+    void setYear(QString year) { if(!year.isEmpty())_year = year;}
     QString pretiffyArtists() const ;
 
     Utils::String  _name{default_value};
     QVector<QString> _artist;
     Utils::String _artist_default{default_value};
     Utils::String _duration{default_time_value};
+    Utils::String _year{default_year_value};
 
-    QString _path;
+    pathStruct _path;
+    QString _current_path;
     qint64 _bitrate;
     qint64 _sampleRate;
     qint64 _channels;
@@ -97,12 +114,13 @@ public:
         ImageRole,
         PathRole,
         ItemRole,
+        YearRole,
         AlbumYearRole,
         AlbumNameRole,
         VisibleRole,
         NameRoleisDefault,
+        YearRoleisDefault,
         ArtistRoleisDefault,
-        AlbumYearRoleisDefault,
         AlbumNameRoleisDefault,
     };
 
@@ -115,6 +133,7 @@ public:
     QVector<MusicItem>& getList();
     void clear();
     void update(QVector<MusicItem> data);
+    void modifyData(std::function<void(MusicItem& item)> function);
     void setList(QVector<MusicItem> items);
     QHash<int, QByteArray> roleNames() const override;
 signals:

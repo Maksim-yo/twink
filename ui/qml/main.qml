@@ -6,9 +6,8 @@ Window {
     width: 640
     height: 480
     visible: true
-    title: qsTr("Hello World")
+    title: qsTr("Twink")
     id: main
-
     Loader {
 
         id: settingsPageLoad
@@ -28,7 +27,6 @@ Window {
         property int leftmenu_width: 40
         anchors.fill: parent
     LeftMenu {
-//        Component.onCompleted: console.log(settings.boolValue("test","unsupported"))
         id: left_menu
         Layout.preferredWidth: root.leftmenu_width
         Layout.fillHeight: true

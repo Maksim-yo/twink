@@ -7,6 +7,5 @@ function createMetadataObject(parent, properties) {
 
     if (page == null) {
         // Error Handling
-        console.log("Error creating object");
     }
 }

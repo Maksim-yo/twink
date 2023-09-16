@@ -10,7 +10,7 @@ Item {
     property string title_name: "Unknown"
     property string duration
     property string back_color: "transparent"
-    property alias  path: trackPath.text
+    property string path: ""
 
     Rectangle {
 
@@ -69,19 +69,30 @@ Item {
 
                 }
 
-                Item {
+                    Item {
 
-                    Layout.fillWidth: true
-                    Layout.fillHeight: true
-                    Text {
+                        Layout.fillWidth: true
+                        Layout.fillHeight: true
+                        Text {
+    //                        implicitWidth: root.path ? 15 : 0
 
-                        anchors.fill: parent
-                        id: trackPath
-                        elide: Text.ElideRight
-
-                        font.pixelSize: 12
+                            id: trackPath
+                            anchors.fill: parent
+                            elide: Text.ElideRight
+                            text: root.path
+                            font.pixelSize: 12
+                        }
                     }
-                }
+
+//                Loader {
+
+//                    id: trackPathLoader
+//                    Layout.fillWidth: true
+//                    Layout.fillHeight: true
+
+//                    sourceComponent: trackPathComponent
+//                    active: root.path != "" ? true : false
+//                }
             }
 
             Item {

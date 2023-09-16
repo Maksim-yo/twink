@@ -71,7 +71,6 @@ Item {
                 imgBtn.hoverEnter()
                 if(default_bright == 0) {
                     myBright.brightness= 0.5}
-//                console.log(root.)
 
             }
             onExited:  {

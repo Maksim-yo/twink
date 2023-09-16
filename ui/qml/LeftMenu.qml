@@ -161,7 +161,6 @@ Item {
                         Layout.fillWidth: true
                         state: root.state
                         onClicked: {
-                            console.log(forward.currentItem.toString())
                             if (checkStackElemnt(forward.currentItem.toString(), "MainPage")) {
                                 fileDialog.open()
                             }
