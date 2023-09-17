@@ -21,7 +21,6 @@ namespace UI {
     void Settings::setValue(const QString &key, const QVariant &value) {
 
       QSettings::setValue(key, value);
-//      qDebug() << "setValue " << value.toString() << " key " << key;
       emit settingChanged(key);
     }
 
