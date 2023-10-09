@@ -1,4 +1,4 @@
-add_library(utils SHARED
+add_library(utils STATIC
     impl/ImagePNG.cpp
     impl/Image.cpp
     impl/String.cpp
@@ -15,7 +15,7 @@ add_library(utils SHARED
     include/utils/Log.h
 
 )
-set_target_properties(utils PROPERTIES WINDOWS_EXPORT_ALL_SYMBOLS ON)
+#set_target_properties(utils PROPERTIES WINDOWS_EXPORT_ALL_SYMBOLS ON)
 
 #set(BUILD_DIR "${CMAKE_CURRENT_BINARY_DIR}/test/")
 
