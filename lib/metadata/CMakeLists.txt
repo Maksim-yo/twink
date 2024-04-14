@@ -1,4 +1,4 @@
-add_library(metadatalib SHARED
+add_library(metadatalib STATIC
 
     include/metadata/IParser.h
     include/metadata/TagLib.h
